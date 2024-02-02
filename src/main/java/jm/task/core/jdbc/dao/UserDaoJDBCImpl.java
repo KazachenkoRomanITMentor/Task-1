@@ -1,6 +1,6 @@
 package jm.task.core.jdbc.dao;
 
-import jm.task.core.jdbc.exceptions.UserDaoException;
+
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public class UserDaoJDBCImpl implements UserDao {
-    private static final UserDaoJDBCImpl INSTANCE = new UserDaoJDBCImpl();
+
 
     private static final String ADD_TABLE_SQL = """
             CREATE TABLE IF NOT EXISTS users (
@@ -46,20 +46,18 @@ public class UserDaoJDBCImpl implements UserDao {
                        TRUNCATE users RESTART IDENTITY; 
             """;
 
-    private UserDaoJDBCImpl() {
+    public UserDaoJDBCImpl() {
 
     }
 
-    public static UserDaoJDBCImpl getInstance() {
-        return INSTANCE;
-    }
+
 
     public void createUsersTable() {
         try (Connection connection = Util.open();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_TABLE_SQL)) {
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new UserDaoException(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -68,7 +66,7 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(DROP_TABLE_SQL)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new UserDaoException(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -81,7 +79,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
             System.out.printf("User %s добавлен в таблицу\n", name);
         } catch (SQLException e) {
-            throw new UserDaoException(e);
+            System.out.println(e.getMessage());
         }
 
     }
@@ -92,12 +90,13 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new UserDaoException(e);
+            System.out.println(e.getMessage());
         }
 
     }
 
     public List<User> getAllUsers() {
+        List<User> list= null;
         try (Connection connection = Util.open();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_SQL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -111,10 +110,11 @@ public class UserDaoJDBCImpl implements UserDao {
                 currentUser.setId(resultSet.getLong("id"));
                 returnedList.add(currentUser);
             }
-            return returnedList;
+            list = returnedList;
         } catch (SQLException e) {
-            throw new UserDaoException(e);
+            System.out.println(e.getMessage());
         }
+        return list;
     }
 
     public void cleanUsersTable() {
@@ -122,7 +122,7 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(CLEAR_ALL_SQL)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new UserDaoException(e);
+            System.out.println(e.getMessage());
         }
     }
 }

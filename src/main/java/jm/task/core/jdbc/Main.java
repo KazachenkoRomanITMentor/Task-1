@@ -1,17 +1,18 @@
 package jm.task.core.jdbc;
 
 
+import jm.task.core.jdbc.dao.UserDao;
 import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
-import org.hibernate.cfg.Configuration;
+
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-/*
-        UserDaoJDBCImpl userDaoJDBC = UserDaoJDBCImpl.getInstance();
+
+        UserDao userDaoJDBC = new UserDaoJDBCImpl();
 
         userDaoJDBC.createUsersTable();
 
@@ -19,24 +20,24 @@ public class Main {
         userDaoJDBC.saveUser("Igor", "Igorkov", (byte) 34);
         userDaoJDBC.saveUser("Semen", "Semenov", (byte) 22);
         userDaoJDBC.saveUser("Svetlana", "Svetlanova", (byte) 76);
-
         List<User> userList = userDaoJDBC.getAllUsers();
         userList.forEach(System.out::println);
-        
         userDaoJDBC.cleanUsersTable();
         userDaoJDBC.dropUsersTable();
-*/
 
-        UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
+
+        UserDao userDaoHibernate = new UserDaoHibernateImpl();
         userDaoHibernate.createUsersTable();
         userDaoHibernate.saveUser("Semen", "Semenov", (byte) 22);
         userDaoHibernate.saveUser("Vladislav", "Drakula", (byte) 122);
         userDaoHibernate.saveUser("Oleg", "Ivanov", (byte) 42);
         userDaoHibernate.saveUser("Ivan", "Olegov", (byte) 12);
+        List<User> userList1 = userDaoHibernate.getAllUsers();
+        userList1.forEach(System.out::println);
         userDaoHibernate.removeUserById(1);
+
         userDaoHibernate.cleanUsersTable();
         userDaoHibernate.dropUsersTable();
-
 
     }
 }

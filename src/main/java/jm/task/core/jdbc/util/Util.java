@@ -1,8 +1,10 @@
 package jm.task.core.jdbc.util;
 
 import jm.task.core.jdbc.model.User;
-import org.hibernate.Session;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.BootstrapServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -15,6 +17,7 @@ public class Util {
     private static final String PASSWORD_KEY = "db.password";
     private static final String USERNAME_KEY = "db.username";
     private static final String URL_KEY = "db.url";
+    private static SessionFactory sessionFactory = null;
 
     static {
         loadDriver();
@@ -36,21 +39,22 @@ public class Util {
     }
 
 
-    public static Configuration getConfig() {
-        Configuration configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(User.class);
-        return configuration;
-    }
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null){
+            try {
+                Configuration configuration = new Configuration().configure();
+                        configuration.addAnnotatedClass(User.class);
+                        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+                        sessionFactory = configuration.buildSessionFactory(builder.build());
+            } catch (HibernateException exception){
+                exception.getStackTrace();
+                System.out.println(exception.getMessage());
+            }
+        }
+        return sessionFactory;
+        }
 
-   /* public static Configuration getHibernateConfig() {
-        Configuration configuration = new Configuration()
-                .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect")
-                .setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/postgres")
-                .setProperty("hibernate.connection.username", "postgress")
-                .setProperty("hibernate.connection.password", "postgress")
-                .configure();
-            return configuration;
-        }*/
+
 
     private static void loadDriver() {
         try {
