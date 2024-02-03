@@ -3,9 +3,6 @@ package jm.task.core.jdbc.util;
 import jm.task.core.jdbc.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.BootstrapServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
@@ -17,7 +14,7 @@ public class Util {
     private static final String PASSWORD_KEY = "db.password";
     private static final String USERNAME_KEY = "db.username";
     private static final String URL_KEY = "db.url";
-    private static SessionFactory sessionFactory = null;
+    private static SessionFactory sessionFactory;
 
     static {
         loadDriver();
@@ -53,7 +50,6 @@ public class Util {
         }
         return sessionFactory;
         }
-
 
 
     private static void loadDriver() {
