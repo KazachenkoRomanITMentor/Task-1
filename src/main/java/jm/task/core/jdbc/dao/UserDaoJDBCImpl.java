@@ -57,7 +57,7 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_TABLE_SQL)) {
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -80,6 +80,7 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.printf("User %s добавлен в таблицу\n", name);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -91,6 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -113,6 +115,7 @@ public class UserDaoJDBCImpl implements UserDao {
             list = returnedList;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return list;
     }
@@ -123,6 +126,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
