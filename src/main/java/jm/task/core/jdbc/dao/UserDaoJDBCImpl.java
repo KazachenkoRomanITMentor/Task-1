@@ -57,6 +57,7 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_TABLE_SQL)) {
             preparedStatement.execute();
         } catch (SQLException e) {
+            e.getStackTrace();
             System.out.println(e.getMessage());
         }
     }
@@ -66,6 +67,7 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(DROP_TABLE_SQL)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            e.getStackTrace();
             System.out.println(e.getMessage());
         }
     }

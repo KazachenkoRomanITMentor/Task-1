@@ -31,7 +31,8 @@ public class Util {
                     PropertiesUtil.get(PASSWORD_KEY)
             );
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -57,7 +58,8 @@ public class Util {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            e.getStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

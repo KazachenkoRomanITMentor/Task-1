@@ -22,7 +22,8 @@ public final class PropertiesUtil {
                 .getResourceAsStream("JDBC.properties")) {
             PROPERTIES.load(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.getStackTrace();
+            System.out.println(e.getMessage());
         }
 
     }
